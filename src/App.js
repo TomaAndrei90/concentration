@@ -1,26 +1,85 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import {
+  VscAdd,
+  VscColorMode,
+  VscDebugBreakpointFunctionUnverified,
+  VscDebugBreakpointData,
+  VscFlame,
+  VscGear,
+  VscOctoface,
+  VscRuby,
+} from 'react-icons/vsc';
+import { shuffle } from './utils';
+import Cards from './Cards';
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+  const cardsNumber = 16;
+  const totalPairs = cardsNumber / 2;
+  const icons = [
+    <VscAdd />,
+    <VscColorMode />,
+    <VscDebugBreakpointFunctionUnverified />,
+    <VscDebugBreakpointData />,
+    <VscFlame />,
+    <VscGear />,
+    <VscOctoface />,
+    <VscRuby />,
+  ];
+
+  const [cards, setCards] = useState([]);
+  const [matchedIds, setMatchedIds] = useState({});
+
+  const constructCards = () => {
+    const constructedMatchedIds = {};
+    const cardPairs = Array.from({ length: totalPairs }, (_, index) => {
+      const id1 = uuidv4();
+      const id2 = uuidv4();
+      const icon = icons[index];
+
+      constructedMatchedIds[id1] = id2;
+      constructedMatchedIds[id2] = id1;
+
+      const card1 = {
+        id: id1,
+        icon,
+        visible: false,
+        permanentlyVisible: false,
+      };
+
+      const card2 = {
+        id: id2,
+        icon,
+        visible: false,
+        permanentlyVisible: false,
+      };
+
+      return [card1, card2];
+    });
+
+    // @ts-ignore
+    const constructedCards = cardPairs.flat();
+    const shuffledCards = shuffle(constructedCards);
+    setMatchedIds(constructedMatchedIds);
+    setCards(shuffledCards);
+  };
+
+  const restartGame = () => {
+    console.log('restart func');
+    setCards([]);
+    setMatchedIds({});
+    constructCards();
+  };
+
+  useEffect(() => {
+    constructCards();
+  }, []);
+
+  console.log('[App] renders');
+
+  return cards.length ? <Cards passedCards={cards} matchedIds={matchedIds} totalPairs={totalPairs} restartGame={restartGame} /> : '';
+};
 
 export default App;

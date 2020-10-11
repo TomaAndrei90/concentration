@@ -1,0 +1,34 @@
+pentru cardsNumber.length / 2, generaza array de icons 
+
+creeaza Map matchedIds
+
+pentru cardsNumber.length / 2, generaza un array cardPairs, fiecare element fiind un obiect(?) pereche de cards
+generatePair() {
+	obiect1 : id1 random, icon[index], visible: false
+	obiect1 : id2 random, icon[index], visible: false
+	push in matchedIds, [id1: id2], [id2: id1]
+}
+
+destructureaza intr-un array cards 
+scramble pozitiile elementelor din cards random
+genereaza UI
+
+functie setClickedPair -
+daca dai clic pe acelasi id, nu face nimic 
+	altfel, pune id-ul, face card de id-ul ala visible
+daca arrayul are length 2, verifica matched ids
+	daca sunt matched, card de fiecare id devin vizibile permanent
+	daca nu sunt matched, card de fiecare id devin vizibile false 
+	in ambele cazuri, setClickedPair([]) ca sa resetezi ce e clicked
+
+winning logic
+
+restart logic
+timer 
+
+other
+	icons sa fie dinamice in functie de length; practic o sa adaug 3 dificultati, si o sa import manual cate iconuri ar fi necesare pt dificultatea maxima (sa zicem 32)
+	eventual si sa randomizez ce icons iti da, sa nu fie mereu aceleasi
+
+
+
