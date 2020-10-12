@@ -25,6 +25,7 @@ body {
 
 .card svg {
 	opacity: 0;
+	color: #000 !important;
 	
 }
 

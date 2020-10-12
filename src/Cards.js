@@ -8,7 +8,8 @@ const Cards = ({
   const [clickedPair, setClickedPair] = useState([]);
   const [pairsGuessed, setPairsGuessed] = useState(0);
   const [pairsGuessedCorrectly, setPairsGuessedCorrectly] = useState(0);
-  const [gameWon, setGameWon] = useState(false);
+	const [gameWon, setGameWon] = useState(false);
+	const [cardsDisabled, setCardsDisabled] = useState(false);
 
   // console.log(cards);
   const handleCardClick = (e) => {
@@ -53,9 +54,13 @@ const Cards = ({
         setCards(clonedCards);
         setPairsGuessedCorrectly(pairsGuessedCorrectly + 1);
       } else {
-				
-				const clonedCards = cards.map((card) => ({ ...card, visible: false }));
-        setCards(clonedCards);
+				(async () => {
+					setCardsDisabled(true);
+					await new Promise(resolve => setTimeout(resolve, 1000));
+					const clonedCards = cards.map((card) => ({ ...card, visible: false }));
+					setCardsDisabled(false);
+					setCards(clonedCards);
+				})();
       }
       setClickedPair([]);
       setPairsGuessed(pairsGuessed + 1);
@@ -91,7 +96,8 @@ const Cards = ({
               id={card.id}
               key={card.id}
               onClick={handleCardClick}
-              type="button"
+							type="button"
+							disabled={cardsDisabled}
             >
               {card.icon}
             </button>
