@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import {  VscDebugRestart} from 'react-icons/vsc';
 
 const Cards = ({
   passedCards, matchedIds, totalPairs, restartGame,
@@ -21,7 +22,7 @@ const Cards = ({
 
     const clonedCards = cards.map((card) => (
       card.id === currentId
-        ? { ...card, visible: true }
+        ? { ...card, flipped: true }
         : card));
     setCards(clonedCards);
     setClickedPair([...clickedPair, currentId]);
@@ -43,7 +44,7 @@ const Cards = ({
       if (matchedIds[id1] === id2) {
         const clonedCards = cards.map((card) => (
           card.id === id1 || card.id === id2
-            ? { ...card, permanentlyVisible: true }
+            ? { ...card, permanentlyFlipped: true }
             : card));
         setCards(clonedCards);
         setPairsGuessedCorrectly(pairsGuessedCorrectly + 1);
@@ -51,7 +52,7 @@ const Cards = ({
 				(async () => {
 					setCardsDisabled(true);
 					await new Promise(resolve => setTimeout(resolve, 1000));
-					const clonedCards = cards.map((card) => ({ ...card, visible: false }));
+					const clonedCards = cards.map((card) => ({ ...card, flipped: false }));
 					setCardsDisabled(false);
 					setCards(clonedCards);
 				})();
@@ -75,25 +76,43 @@ const Cards = ({
 
   return (
     <>
-      {gameWon && <h1>Congratulations! You have found all the pairs.</h1>}
-      <h5>{`Pairs guessed: ${pairsGuessed}`}</h5>
-      <h5>{`Pairs guessed correctly: ${pairsGuessedCorrectly}`}</h5>
-      <button type="button" onClick={() => restartGame()}>Restart</button>
+			<div className="info">
+				<h5 className="info__text">{`Pairs guessed: ${pairsGuessed}`}</h5>
+				<h5 className="info__text">{`Pairs guessed correctly: ${pairsGuessedCorrectly}`}</h5>
+				<h5 className="info__win">{gameWon && 'Congratulations! You have found all the pairs.'}</h5>
+				<button type="button" className="button-restart" onClick={() => restartGame()}>
+					<VscDebugRestart />
+				</button>
+			</div>
       <div className="card-container">
 
         {cards.map((card) => {
-          const visible = (card.visible || card.permanentlyVisible) ? 'card--visible' : '';
+          const flipped = (card.flipped || card.permanentlyFlipped) ? 'is-flipped' : '';
           return (
-            <div className={`card ${visible}`} key={card.id}>
-							<button
-								className="card-button"
-								id={card.id}								
-								onClick={handleCardClick}
-								type="button"
-								disabled={cardsDisabled} 
-								>
-								{card.icon}
-							</button>
+            <div className="card-scene" key={card.id}>
+							<div className={`card ${flipped}`}>
+								<div className="card__face card__face--front">
+									<button
+										className="card__button"
+										id={card.id}								
+										onClick={handleCardClick}
+										type="button"
+										disabled={cardsDisabled} 
+										>
+									</button>
+								</div>
+								<div className="card__face card__face--back">
+									<button
+										className="card__button"
+										id={card.id}								
+										onClick={handleCardClick}
+										type="button"
+										disabled={cardsDisabled} 
+										>
+										{card.icon}
+									</button>
+								</div>
+							</div>
 						</div>
           );
         })}
