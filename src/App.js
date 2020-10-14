@@ -67,7 +67,6 @@ const App = () => {
   };
 
   const restartGame = () => {
-    console.log('restart func');
     setCards([]);
     setMatchedIds({});
     constructCards();

@@ -11,13 +11,11 @@ const Cards = ({
 	const [gameWon, setGameWon] = useState(false);
 	const [cardsDisabled, setCardsDisabled] = useState(false);
 
-  // console.log(cards);
   const handleCardClick = (e) => {
     e.persist();
     const currentId = e.currentTarget.id;
 
     if (currentId === clickedPair[0]) {
-      // console.log('same id');
       return;
     }
 
@@ -38,14 +36,10 @@ const Cards = ({
 	}, [passedCards]);
 
   useEffect(() => {
-    // console.log('clickedpair updated');
-    // console.log('clickedPair.length', clickedPair.length);
     if (clickedPair.length === 2) {
       const id1 = clickedPair[0];
       const id2 = clickedPair[1];
 
-      // console.log(matchedIds[id1]);
-      // console.log(id2);
       if (matchedIds[id1] === id2) {
         const clonedCards = cards.map((card) => (
           card.id === id1 || card.id === id2
@@ -79,7 +73,6 @@ const Cards = ({
 
   console.log('[Cards] renders');
 
-  // console.log('clickedPair', clickedPair);
   return (
     <>
       {gameWon && <h1>Congratulations! You have found all the pairs.</h1>}
@@ -91,16 +84,17 @@ const Cards = ({
         {cards.map((card) => {
           const visible = (card.visible || card.permanentlyVisible) ? 'card--visible' : '';
           return (
-            <button
-              className={`card ${visible}`}
-              id={card.id}
-              key={card.id}
-              onClick={handleCardClick}
-							type="button"
-							disabled={cardsDisabled}
-            >
-              {card.icon}
-            </button>
+            <div className={`card ${visible}`} key={card.id}>
+							<button
+								className="card-button"
+								id={card.id}								
+								onClick={handleCardClick}
+								type="button"
+								disabled={cardsDisabled} 
+								>
+								{card.icon}
+							</button>
+						</div>
           );
         })}
       </div>
