@@ -2,7 +2,24 @@ body {
 	display: flex;
 	justify-content: center;
 	min-height: 100vh;
-	background: url(https://images.pexels.com/photos/963278/pexels-photo-963278.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260);
+}
+
+@media (max-width: 480px) {
+	body {
+			background-image: url('./bg-mobile.jpg');
+	}
+}
+
+@media (min-width: 481px) and (max-width: 1024px) {
+	body {
+			background-image: url('./bg-tablet.jpg');
+	}
+}
+
+@media (min-width: 1025px) {
+	body {
+		background-image: url('./bg-desktop.jpg');
+	}
 }
 
 button:focus {
@@ -33,6 +50,11 @@ button:focus {
 	margin-bottom: 0;
 }
 
+.info_timer {
+	position: absolute;
+	top: 4.2rem;
+	right: 3.7rem;
+}
 
 .button-restart {
     background: transparent;
@@ -107,22 +129,22 @@ button:focus {
 }
 
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
 	.info {
 		margin-top: 2rem;
 	}
 	
 	.info, 
 	.card-container {
-		max-width: 100vw;
+		max-width: 95vw;
 	}
 
 	.card-container {
-		max-height: 100vw;
+		max-height: 95vw;
 		padding: 1rem;
 	}
 
 	.info__text, .info__win {
     font-size: 0.8rem;
-}
+	}
 }

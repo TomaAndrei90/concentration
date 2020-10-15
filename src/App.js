@@ -30,7 +30,8 @@ const App = () => {
   ];
 
   const [cards, setCards] = useState([]);
-  const [matchedIds, setMatchedIds] = useState({});
+	const [matchedIds, setMatchedIds] = useState({});
+	const [refreshTimer, setRefreshTimer] = useState(true);
 
   const constructCards = () => {
     const constructedMatchedIds = {};
@@ -69,7 +70,8 @@ const App = () => {
   const restartGame = () => {
     setCards([]);
     setMatchedIds({});
-    constructCards();
+		constructCards();
+		setRefreshTimer(prevState => !prevState);
   };
 
   useEffect(() => {
@@ -78,7 +80,7 @@ const App = () => {
 
   console.log('[App] renders');
 
-  return cards.length ? <Cards passedCards={cards} matchedIds={matchedIds} totalPairs={totalPairs} restartGame={restartGame} /> : '';
+  return cards.length ? <Cards passedCards={cards} matchedIds={matchedIds} totalPairs={totalPairs} restartGame={restartGame} refreshTimer={refreshTimer} /> : '';
 };
 
 export default App;

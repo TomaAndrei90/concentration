@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {  VscDebugRestart} from 'react-icons/vsc';
+import { Timer } from './Timer';
 
 const Cards = ({
-  passedCards, matchedIds, totalPairs, restartGame,
+  passedCards, matchedIds, totalPairs, restartGame, refreshTimer
 }) => {
   const [cards, setCards] = useState(passedCards);
   const [clickedPair, setClickedPair] = useState([]);
@@ -83,6 +84,7 @@ const Cards = ({
 				<button type="button" className="button-restart" onClick={() => restartGame()}>
 					<VscDebugRestart />
 				</button>
+				<Timer refreshTimer={refreshTimer} gameWon={gameWon} />
 			</div>
       <div className="card-container">
 
